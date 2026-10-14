@@ -5,19 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import me.kevinbayona.facebook.ui.theme.FacebookLoginScreen
-import me.kevinbayona.facebook.ui.theme.FacebookRegisterScreen
-import me.kevinbayona.facebook.ui.theme.FacebookTheme
+import me.kevinbayona.facebook.ui.screens.FacebookLoginScreen
+import me.kevinbayona.facebook.ui.screens.FacebookRegisterScreen
+import me.kevinbayona.facebook.ui.screens.FeedScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,13 +25,26 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier.fillMaxSize()
             ) {
                 composable(route = "login"){
-                    FacebookLoginScreen(navController= myNavController)
+                    FacebookLoginScreen(
+                        onClickRegister = {
+                            myNavController.navigate("register")
+                        },
+                        onClickIniciarSesion = {
+                            myNavController.navigate("feed")
+                        }
+                    )
                 }
                 composable(route = "register") {
-                    FacebookRegisterScreen(navController = myNavController)
+                    FacebookRegisterScreen(
+                        onClicBack = {
+                            myNavController.popBackStack()
+                        }
+                    )
+                }
+                composable("feed"){
+                    FeedScreen()
                 }
             }
         }
     }
 }
-
